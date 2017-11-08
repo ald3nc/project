@@ -3,10 +3,38 @@
 using namespace std;
 
 int menu();
+					//checking account - % bonus for deposit
+					//savings account - normal deposit
+class Account{
+private:
 
+protected:
+	vector<int> FileContents;
+
+public:
+	void ViewBalance(int);
+	Account();
+
+};
+class SavingsAccount:Account{
+private:
+
+protected:
+
+public:
+
+};
+class CheckingAccount:Account{
+private:
+
+protected:
+
+public:
+
+};
 class Customer{
 private:
-	int choice = 0;
+	int choice_c = 0;
 
 public:
 	Customer();
@@ -20,10 +48,11 @@ Customer::Customer(){
 }
 
 int Customer::Customer_Menu(){
-	cout << "Enter 1 to view account balance" << endl;			//savings/checking?
-	cout << "Enter 2 to deposit funds" << endl;
-	cout << "Enter 3 to withdraw funds" << endl;
-	return 1;
+	cout << "Enter 1 to manage checking account" << endl;			//savings/checking?
+	cout << "Enter 2 to manage savings account" << endl;
+	cin >> choice_c;
+	return choice_c;
+
 }
 
 int menu(){
@@ -39,11 +68,19 @@ int menu(){
 
 int main(void){
 	int choice;
+	int choice_c;
 	choice = menu();
 	cout << choice << endl;
 	if(choice == 1){
 		Customer customer1;
-		customer1.Customer_Menu();
+		choice_c = customer1.Customer_Menu();
+		switch (choice_c){
+		case 1:	//checking
+			break;
+		case 2: //savings funds
+			break;
+
+		}
 	}
 
 }
