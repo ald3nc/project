@@ -72,6 +72,7 @@ Account::Account(string file_name, string username){
 			cout << "your balance is: $" << balance[x] << endl;
 		}
 	}
+	fptr.close();
 
 
 
@@ -123,31 +124,32 @@ int Customer::Customer_login(){
 		passwords.push_back(b);
 		//cout << names[x] << endl;
 		//cout << passwords[x] << endl;
+
 	}
+	fptr.close();
 	while(loop == 0){
 		cout << "enter 'exit' as your username to return to main menu" << endl;
 		cout << "enter your username" << endl;
 		cin >> username;
-		if(username == "exit")
+		if(username == "exit"){
 			return 1;
+		}
 		cout << "enter your password" << endl;
 		cin >> password;
 
 	for(x=0;x<length;x++){
-		//if(username == "exit"){
-		//	return 1;
-		//}
 		if(names[x] == username && passwords[x] == password){
 			cout << "welcome" << endl;
 			loop = 1;
 			break;
 		}
-		else{
-			cout << "please try again" << endl;
-			break;
-		}
-
 	}
+	if(x == 3){
+		cout << "please try again" << endl;
+			continue;
+	}
+
+
 
 	}
 	return 0;
@@ -191,13 +193,17 @@ int main(void){
 		if(choice == 1){
 			Customer customer1;
 			thing = customer1.Customer_login();
+			//cout << "thing =" << thing << endl;
 			username = customer1.get_username();
+			//cout << "username is " << username << endl;
 			if(thing == 1){
-				//return_to_main = thing;
 				continue;
 			}
+			//cout << "beginning of second loop" << endl;
 			//cout << return_to_main << endl;
+			second_loop = 0;
 			while(second_loop == 0){
+				//cout << "beginning of second loop" << endl;
 				choice_c = customer1.Customer_Menu();
 				if(choice_c == 1){
 					CheckingAccount checking(c, username);
