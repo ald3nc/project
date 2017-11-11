@@ -30,7 +30,7 @@ public:
 
 };
 SavingsAccount::SavingsAccount(string file_name, string username):Account(file_name, username){
-	cout << "creating savings account" << endl;
+	//cout << "creating savings account" << endl;
 }
 class CheckingAccount:Account{
 private:
@@ -42,11 +42,12 @@ public:
 
 };
 CheckingAccount::CheckingAccount(string file_name, string username):Account(file_name, username){
-	cout << "creating checking account" << endl;
+	//cout << "creating checking account" << endl;
 }
 Account::Account(string file_name, string username){
 	int length = 0;
 	int x = 0;
+	int y = 0;
 	string a;
 	double b;
 	fstream fptr;
@@ -70,9 +71,49 @@ Account::Account(string file_name, string username){
 		if(names[x] == username){
 			cout << "hello " << username << endl;
 			cout << "your balance is: $" << balance[x] << endl;
+			y = x;
+			cout << endl;
 		}
 	}
 	fptr.close();
+	int choice = 0;
+	double amount;
+	cout << "Enter 1 to add funds" << endl;
+	cout << "Enter 2 to withdraw funds" << endl;
+	cout << "Enter 3 to return to exit menu" << endl;
+	cin >> choice;
+
+	if(choice == 1){
+		cout << "Enter amount you would like to deposit" << endl;
+		cin >> amount;
+		balance[y] = balance[y] + amount;
+		cout << balance[y];
+		fptr.open(file_name);
+		if(!fptr.is_open()){
+				cout << "could not open file" << endl;
+		}
+		fptr << length << endl;
+		for(x=0;x<length;x++){
+			fptr << names[x] << " " << balance[x] << endl;
+		}
+
+	}
+	if(choice == 2){
+		cout << "Enter amount you would like to withdraw" << endl;
+		cin >> amount;
+		balance[y] = balance[y] - amount;
+		cout << balance[y];
+		fptr.open(file_name);
+		if(!fptr.is_open()){
+				cout << "could not open file" << endl;
+		}
+		fptr << length << endl;
+		for(x=0;x<length;x++){
+			fptr << names[x] << " " << balance[x] << endl;
+		}
+	}
+
+
 
 
 
