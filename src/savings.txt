@@ -1,4 +1,6 @@
-3
-admin 1500.00
-Andrew 752.25
-thatoneguy 0.00
+5
+admin 900
+Andrew 500
+Gino 100
+Derek 123
+Garrett 321
