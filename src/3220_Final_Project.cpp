@@ -5,6 +5,14 @@
 #include <stdexcept>
 using namespace std;
 
+/* STRUCTURE: prompts
+ * DESCRIPTION: Stores all of the prompts to be displayed to the user
+ */
+struct prompts {
+	string main_menu = "Enter 1 to Log in as a Customer\nEnter 2 to log in as an Employee\nEnter 3 to Log in as a Manager\nEnter 4 to Request New Customer Account\nEnter 5 to Exit";
+	string try_again = "Would you like to try again? (yes) -or- (no): ";
+}prompt;
+
 /* CLASS: Input
  * DESCRIPTION: Used to obtain valid input from the user.
  */
@@ -40,7 +48,7 @@ string Input::get_string(int maxLength) {
 		string cont;
 
 		cout << endl << x.what();
-		cout << endl << "Would you like to try again? (yes) -or- (no): ";
+		cout << endl << prompt.try_again;
 
 		cont = get_string(3);
 
@@ -53,7 +61,7 @@ string Input::get_string(int maxLength) {
 		string cont;
 
 		cout << "\nInvalid Input";
-		cout << endl << "Would you like to try again? (yes) -or- (no): ";
+		cout << endl << prompt.try_again;
 
 		cont = get_string(3);
 
@@ -712,8 +720,7 @@ int Employee::Employee_login(){
 int menu(){
 	int choice = 0;
 	string a;
-	string menuPrompt = "Enter 1 to Log in as a Customer\nEnter 2 to log in as an Employee\nEnter 3 to Log in as a Manager\nEnter 4 to Request New Customer Account\nEnter 5 to Exit";
-	choice = userInput.get_integer(1, 5, menuPrompt);
+	choice = userInput.get_integer(1, 5, prompt.main_menu);
 	return choice;
 }
 
