@@ -5,13 +5,22 @@
 #include <stdexcept>
 using namespace std;
 
+// Maximum amounts constants
 #define MAX_NAME_LENGTH 20
 #define MAX_PASS_LENGTH 20
 #define MAX_AMOUNT_DEPOSIT_WITHDRAW 1000000000
 #define MAX_AMOUNT_ACCOUNT 1000000000
 
+// Program control constants
 #define RESTART "***RESTART***"
 #define EXIT "***EXIT***"
+
+// Data file access control constants
+#define DATA_CUSTOMER "customers.txt"
+#define DATA_CHECKING "checking.txt"
+#define DATA_SAVINGS "savings.txt"
+#define DATA_EMPLOYEE "employees.txt"
+#define DATA_PAYROLL "payroll.txt"
 
 /* STRUCTURE: prompts
  * DESCRIPTION: Stores all of the prompts to be displayed to the user
@@ -20,7 +29,7 @@ struct prompts {
 	// Menu prompts
 	string menu_main = "Enter 1 to Log in as a Customer\nEnter 2 to log in as an Employee\nEnter 3 to Log in as a Manager\nEnter 4 to Request New Customer Account\nEnter 5 to Exit";
 	string menu_account = "Enter 1 to Add Funds\nEnter 2 to Withdraw Funds\nEnter 3 to Return to Exit Menu";
-	string menu_customer = "Enter 1 to Manage Checking Account\nEnter 2 to Manage Savins Account\nEnter 3 to Exit Menu";
+	string menu_customer = "Enter 1 to Manage Checking Account\nEnter 2 to Manage Savings Account\nEnter 3 to Exit Menu";
 	string menu_employee = "Enter 1 to Manage a Customer Account\nEnter 2 to View Payroll Information\nEnter 3 to Add Customer Account\nEnter 4 to Remove Customer Account\nEnter 5 to View All Customer Accounts\nEnter 6 to Exit Menu";
 	string menu_manage_customer = "Enter 1 to Add Funds to Savings\nEnter 2 to Add Funds to Checking\nEnter 3 to Withdraw From Savings\nEnter 4 to Withdraw from Checking";
 	string menu_customer_account_name = "Which Customer Account Would you Like to Manage?\n(Enter 'exit' to Exit Menu)";
@@ -53,13 +62,6 @@ struct prompts {
 	string error_input = "ERROR: Invalid Input";
 	string error_characterOverflow = "ERROR: Too many characters";
 }prompt;
-
-/* STRUCTURE: data_file
- * DESCRIPTION: Holds the name of the data files
- */
-struct data_file {
-	string customer = "customers.txt";
-}file;
 
 /* CLASS: Input
  * DESCRIPTION: Used to obtain valid input from the user.
@@ -426,9 +428,9 @@ int Customer::Customer_login(){
 	int loop = 0;
 
 	fstream fptr;
-	fptr.open("customers.txt");
+	fptr.open(DATA_CUSTOMER);
 	if(!fptr.is_open()){
-		cout << "could not open file" << endl;
+		cout << prompt.error_fileAccess << endl;
 	}
 	fptr >> length;
 	//cout << length << endl;
@@ -534,7 +536,7 @@ void Employee::Add_Customer(){
 	customer_passwords.push_back(new_password);
 
 	fstream fptr;
-	fptr.open(file.customer);
+	fptr.open(DATA_CUSTOMER);
 	if(!fptr.is_open()){
 			cout << prompt.error_fileAccess << endl;
 	}
@@ -552,9 +554,9 @@ void Employee::Add_Customer(){
 	checking.push_back(new_checking);
 
 	//fstream fptr;
-	fptr.open("savings.txt");
+	fptr.open(DATA_SAVINGS);
 	if(!fptr.is_open()){
-			cout << "could not open file" << endl;
+			cout << prompt.error_fileAccess << endl;
 	}
 
 	fptr << length_c << endl;
@@ -564,9 +566,9 @@ void Employee::Add_Customer(){
 	fptr.close();
 
 	//fstream fptr;
-	fptr.open("checking.txt");
+	fptr.open(DATA_CHECKING);
 	if(!fptr.is_open()){
-			cout << "could not open file" << endl;
+			cout << prompt.error_fileAccess << endl;
 	}
 
 	fptr << length_c << endl;
@@ -584,9 +586,9 @@ void Employee::Initialize(){
 	double c, d, f;
 
 	fstream fptr1;
-	fptr1.open("customers.txt");
+	fptr1.open(DATA_CUSTOMER);
 	if(!fptr1.is_open()){
-		cout << "could not open file" << endl;
+		cout << prompt.error_fileAccess << endl;
 	}
 	fptr1 >> length_c;
 	for(x=0;x<length_c;x++){
@@ -600,9 +602,9 @@ void Employee::Initialize(){
 	fptr1.close();
 
 	fstream fptr2;
-	fptr2.open("savings.txt");
+	fptr2.open(DATA_SAVINGS);
 	if(!fptr2.is_open()){
-		cout << "could not open file" << endl;
+		cout << prompt.error_fileAccess << endl;
 	}
 	fptr2 >> length_c;
 	for(x=0;x<length_c;x++){
@@ -614,9 +616,9 @@ void Employee::Initialize(){
 	fptr2.close();
 
 	fstream fptr3;
-	fptr3.open("checking.txt");
+	fptr3.open(DATA_CHECKING);
 	if(!fptr3.is_open()){
-		cout << "could not open file" << endl;
+		cout << prompt.error_fileAccess << endl;
 	}
 	fptr3 >> length_c;
 	for(x=0;x<length_c;x++){
@@ -628,9 +630,9 @@ void Employee::Initialize(){
 	fptr3.close();
 
 	fstream fptr4;
-	fptr4.open("payroll.txt");
+	fptr4.open(DATA_PAYROLL);
 	if(!fptr4.is_open()){
-		cout << "could not open file" << endl;
+		cout << prompt.error_fileAccess << endl;
 	}
 	fptr4 >> length_e;
 	for(x=0;x<length_e;x++){
@@ -643,9 +645,9 @@ void Employee::Initialize(){
 	}
 
 	fstream fptr5;
-	fptr5.open("employees.txt");
+	fptr5.open(DATA_EMPLOYEE);
 	if(!fptr5.is_open()){
-		cout << "could not open file" << endl;
+		cout << prompt.error_fileAccess << endl;
 	}
 	fptr5 >> length_e;
 	for(x=0;x<length_e;x++){
@@ -793,7 +795,7 @@ int Employee::Employee_login(){
 
 	while(loop == 0){
 		username = userInput.get_string(MAX_NAME_LENGTH, prompt.username);
-		if(username == EXIT){
+		if(username == "exit"){
 			return 1;
 		}
 	
@@ -832,8 +834,8 @@ int main(void){
 	int thing2 = 0;
 	int second_loop = 0;
 
-	string c = "checking.txt";
-	string s = "savings.txt";
+	string c = DATA_CHECKING;
+	string s = DATA_SAVINGS;
 	
 	string username;
 
@@ -880,7 +882,7 @@ int main(void){
 				choice_e = employee1.Employee_Menu();
 				while(choice_e == 1){
 					customer_name = userInput.get_string(MAX_NAME_LENGTH, prompt.menu_customer_account_name);
-					if(customer_name == EXIT){
+					if(customer_name == "exit"){
 						choice_e = 0;
 						continue;
 					}
@@ -893,13 +895,13 @@ int main(void){
 						//add or remove funds from savings and checking
 						int x = userInput.get_integer(1, 4, prompt.menu_manage_customer);
 						if(x == 1)
-							employee1.Add_Withdraw(customer_name, "savings.txt", 1);
+							employee1.Add_Withdraw(customer_name, DATA_SAVINGS, 1);
 						if(x == 2)
-							employee1.Add_Withdraw(customer_name, "checking.txt", 2);
+							employee1.Add_Withdraw(customer_name, DATA_CHECKING, 2);
 						if(x == 3)
-							employee1.Add_Withdraw(customer_name, "savings.txt", 3);
+							employee1.Add_Withdraw(customer_name, DATA_SAVINGS, 3);
 						if(x == 4)
-							employee1.Add_Withdraw(customer_name, "checking.txt", 4);
+							employee1.Add_Withdraw(customer_name, DATA_CHECKING, 4);
 						choice_e = 0;
 					}
 				}

@@ -1,4 +1,5 @@
 3
-admin 200.22
+admin 700.22
 Andrew 5486.32
-thatoneguy 100.00
+thatoneguy 100
+00
