@@ -231,11 +231,76 @@ public:
 	void Add_Withdraw(string customer_name, string file_name, int value);
 	void Initialize();
 	void Add_Customer();
+	void Remove_Customer();
 
 };
 
 Employee::Employee(){
 
+}
+
+void Employee::Remove_Customer(){
+
+	int x = 0;
+	int y = 0;
+	int temp;
+	int loop = 0;
+	string customer;
+
+	while(loop == 0){
+		cout << "enter name of customer" << endl;
+		cin >> customer;
+		for(x=0;x<length_c;x++){
+			if(customer_names[x] == customer){
+				loop = 1;
+				y = x;
+				break;
+			}
+
+		}
+		if(x == length_c){
+			cout << "not a valid customer" << endl;
+		}
+	}
+
+	customer_names.erase(customer_names.begin()+y);
+	customer_passwords.erase(customer_passwords.begin()+y);
+	savings.erase(savings.begin()+y);
+	checking.erase(checking.begin()+y);
+	length_c = length_c - 1;
+
+    fstream fptr1;
+	fptr1.open("customers.txt", fstream::out);
+	if(!fptr1.is_open()){
+			cout << "could not open file" << endl;
+	}
+	fptr1 << length_c << endl;
+	for(x=0;x<length_c;x++){
+		fptr1 << customer_names[x] << " " << customer_passwords[x] << endl;
+	}
+	fptr1.close();
+
+    fstream fptr;
+	fptr.open("savings.txt", fstream::out);
+	if(!fptr.is_open()){
+			cout << "could not open file" << endl;
+	}
+	fptr << length_c << endl;
+	for(x=0;x<length_c;x++){
+		fptr << customer_names[x] << " " << savings[x] << endl;
+	}
+	fptr.close();
+
+    fstream fptr2;
+	fptr2.open("checking.txt", fstream::out);
+	if(!fptr2.is_open()){
+			cout << "could not open file" << endl;
+	}
+	fptr2 << length_c << endl;
+	for(x=0;x<length_c;x++){
+		fptr2 << customer_names[x] << " " << checking[x] << endl;
+	}
+	fptr2.close();
 }
 
 void Employee::Add_Customer(){
@@ -613,6 +678,59 @@ void Manager::View_All_Employee(){
 
 void Manager::Remove_Employee(){
 
+	int x = 0;
+	int y = 0;
+	int temp;
+	int loop = 0;
+	string employee;
+
+	while(loop == 0){
+		cout << "enter name of employee" << endl;
+		cin >> employee;
+		for(x=0;x<length_e;x++){
+			if(employee_names[x] == employee){
+				loop = 1;
+				y = x;
+				break;
+			}
+
+		}
+		if(x == length_e){
+			cout << "not a valid employee" << endl;
+		}
+	}
+
+	employee_names.erase(employee_names.begin()+y);
+	employee_passwords.erase(employee_passwords.begin()+y);
+	payroll.erase(payroll.begin()+y);
+	length_e = length_e - 1;
+
+	for(x=0;x<length_e;x++){
+		cout << employee_names[x] << endl;
+		cout << employee_passwords[x] << endl;
+	}
+
+    fstream fptr1;
+	fptr1.open("employees.txt", fstream::out);
+	if(!fptr1.is_open()){
+			cout << "could not open file" << endl;
+	}
+	fptr1 << length_e << endl;
+	for(x=0;x<length_e;x++){
+		fptr1 << employee_names[x] << " " << employee_passwords[x] << endl;
+	}
+	fptr1.close();
+
+    fstream fptr;
+	fptr.open("payroll.txt", fstream::out);
+	if(!fptr.is_open()){
+			cout << "could not open file" << endl;
+	}
+	fptr << length_e << endl;
+	for(x=0;x<length_e;x++){
+		fptr << employee_names[x] << " " << payroll[x] << endl;
+	}
+	fptr.close();
 }
 
 void Manager::Add_Employee(){
@@ -738,6 +856,70 @@ void Manager::View_All_Accounts(){
 		cout << customer_names[x] << "     " << savings[x] << "       " << checking[x] << "     " << endl;
 	}
 
+}
+
+void Manager::Remove_Customer(){
+
+	int x = 0;
+	int y = 0;
+	int temp;
+	int loop = 0;
+	string customer;
+
+	while(loop == 0){
+		cout << "enter name of customer" << endl;
+		cin >> customer;
+		for(x=0;x<length_c;x++){
+			if(customer_names[x] == customer){
+				loop = 1;
+				y = x;
+				break;
+			}
+
+		}
+		if(x == length_c){
+			cout << "not a valid customer" << endl;
+		}
+	}
+
+	customer_names.erase(customer_names.begin()+y);
+	customer_passwords.erase(customer_passwords.begin()+y);
+	savings.erase(savings.begin()+y);
+	checking.erase(checking.begin()+y);
+	length_c = length_c - 1;
+
+    fstream fptr1;
+	fptr1.open("customers.txt", fstream::out);
+	if(!fptr1.is_open()){
+			cout << "could not open file" << endl;
+	}
+	fptr1 << length_c << endl;
+	for(x=0;x<length_c;x++){
+		fptr1 << customer_names[x] << " " << customer_passwords[x] << endl;
+	}
+	fptr1.close();
+
+    fstream fptr;
+	fptr.open("savings.txt", fstream::out);
+	if(!fptr.is_open()){
+			cout << "could not open file" << endl;
+	}
+	fptr << length_c << endl;
+	for(x=0;x<length_c;x++){
+		fptr << customer_names[x] << " " << savings[x] << endl;
+	}
+	fptr.close();
+
+    fstream fptr2;
+	fptr2.open("checking.txt", fstream::out);
+	if(!fptr2.is_open()){
+			cout << "could not open file" << endl;
+	}
+	fptr2 << length_c << endl;
+	for(x=0;x<length_c;x++){
+		fptr2 << customer_names[x] << " " << checking[x] << endl;
+	}
+	fptr2.close();
 }
 
 void Manager::Add_Customer(){
@@ -1176,6 +1358,8 @@ int main(void){
 				}
 				if(choice_e == 4){
 					//remove customer
+					employee1.Remove_Customer();
+
 				}
 				if(choice_e == 5){
 					//view all accounts
@@ -1242,6 +1426,7 @@ int main(void){
 				}
 				if(choice_m2 == 3){
 					//remove customer
+					manager1.Remove_Customer();
 				}
 				if(choice_m2 == 4){
 					manager1.View_All_Accounts();
@@ -1286,6 +1471,7 @@ int main(void){
 				}
 				if(choice_m3 == 3){
 					//remove employee
+					manager1.Remove_Employee();
 				}
 				if(choice_m3 == 4){
 					//view all
