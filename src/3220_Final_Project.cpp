@@ -29,12 +29,12 @@ using namespace std;
  */
 struct prompts {
 	// Menu prompts
-	string menu_main = "Enter 1 to Log in as a Customer\nEnter 2 to log in as an Employee\nEnter 3 to Log in as a Manager\nEnter 4 to Request New Customer Account\nEnter 5 to Exit";
+	string menu_main = "Enter 1 to Log in as a Customer\nEnter 2 to Log in as an Employee\nEnter 3 to Log in as a Manager\nEnter 4 to Request New Customer Account\nEnter 5 to Exit Menu";
 	string menu_account = "Enter 1 to Add Funds\nEnter 2 to Withdraw Funds\nEnter 3 to Return to Exit Menu";
 	string menu_customer = "Enter 1 to Manage Checking Account\nEnter 2 to Manage Savings Account\nEnter 3 to Exit Menu";
 	string menu_employee = "Enter 1 to Manage a Customer Account\nEnter 2 to View Payroll Information\nEnter 3 to Add Customer Account\nEnter 4 to Remove Customer Account\nEnter 5 to View All Customer Accounts\nEnter 6 to Exit Menu";
 	string menu_manager = "Enter 1 to Manage Customers\nEnter 2 to Manage Employees\nEnter 3 to Exit Menu";	
-	string menu_manage_customer = "Enter 1 to Add Funds to Savings\nEnter 2 to Add Funds to Checking\nEnter 3 to Withdraw From Savings\nEnter 4 to Withdraw from Checking";
+	string menu_manage_customer = "Enter 1 to Add Funds to Savings\nEnter 2 to Add Funds to Checking\nEnter 3 to Withdraw From Savings\nEnter 4 to Withdraw from Checking\nEnter 5 to Exit Menu";
 	string menu_customer_account_name = "Which Customer Account Would you Like to Manage?\n(Enter 'exit' to Exit Menu)";
 	string menu_addRemove = "Enter 1 to Add Funds to Savings\nEnter 2 to Add Funds to Checking\nEnter 3 to Withdraw from Savings\nEnter 4 to Withdraw from Checking\nEnter 5 to Exit";
 	string menu_manageEmployees = "Enter 1 to Change an Employee's Pay\nEnter 2 to Add an Employee\nEnter 3 to Remove an Employee\nEnter 4 to View All Employees\nEnter 5 to Exit Menu";
@@ -997,7 +997,7 @@ private:
 	vector<string> employee_passwords;
 
 public:
-	Manager();
+	Manager() {};
 	int manager_menu();
 	int manager_login();
 	void Initialize();
@@ -1018,16 +1018,13 @@ void Manager::View_All_Employee(){
 
 	int x = 0;
 
-	cout << "names     " << "pay rate" << endl;
+	cout << "Names\tPay Rate" << endl;
 	for(x=0;x<length_e;x++){
-		cout << employee_names[x] << "     " << payroll[x]      << endl;
+		cout << employee_names[x] << "\t" << payroll[x] << endl;
 	}
-
 }
 
-
 void Manager::Remove_Employee(){
-
 	int x = 0;
 	int y = 0;
 	int temp;
@@ -1042,7 +1039,6 @@ void Manager::Remove_Employee(){
 				y = x;
 				break;
 			}
-
 		}
 		if(x == length_e){
 			cout << prompt.soft_invalid_employee << endl;
@@ -1146,8 +1142,6 @@ void Manager::Change_Pay(string employee_name){
 
 	for(x=0;x<length_e;x++){
 		if(employee_names[x] == employee_name){
-			//cout << "\nhello " << employee_name << endl;
-			//cout << "your balance is: $" << endl;
 			y = x;
 			cout << endl;
 		}
@@ -1476,8 +1470,6 @@ void Manager::Initialize(){
 		customer_names.push_back(a);
 		fptr1 >> b;
 		customer_passwords.push_back(b);
-		//cout << customer_names[x] << endl;
-		//cout << customer_passwords[x] << endl;
 	}
 	fptr1.close();
 
@@ -1554,13 +1546,8 @@ int Manager::manager_menu(){
 	return choice_m;
 }
 
-Manager::Manager(){
-
-}
-
 int menu(){
 	int choice = 0;
-	string a;
 	choice = userInput.get_integer(1, 5, prompt.menu_main);
 	return choice;
 }
@@ -1786,4 +1773,4 @@ int main(void){
 	}
 	}
 	return 0;
-}
+} // END FUNCTION main
