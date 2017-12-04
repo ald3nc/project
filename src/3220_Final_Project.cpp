@@ -106,6 +106,7 @@ class Input {
 		int get_integer(int min, int max, string prompt);
 		float get_float(float min, float max);
 		float get_float(float min, float max, string prompt);
+
 }userInput; // END CLASS Input
 
 /* CLASS: Input
@@ -452,7 +453,7 @@ Account::Account(string file_name, string username){
 
 	for(x=0;x<length;x++){
 		if(names[x] == username){
-			cout << "\nHello " << username << endl;
+			cout << prompt.hello_isItMeYourLookingFor << username << endl;
 			cout << prompt.info_balance << balance[x] << endl;
 			y = x;
 			cout << endl;
@@ -963,7 +964,7 @@ int Employee::Employee_login(){
 	for(x=0;x<length_e;x++){
 		if(names[x] == username && passwords[x] == password){
 			cout << endl;
-			cout << "welcome " << username << endl;
+			cout << prompt.hello_isItMeYourLookingFor << username << endl;
 			loop = 1;
 			break;
 		}
@@ -1321,7 +1322,6 @@ void Manager::Add_Customer(){
 	}
 	fptr.close();
 
-	//fstream fptr;
 	fptr.open(DATA_CHECKING);
 	if(!fptr.is_open()){
 			cout << prompt.error_fileAccess << endl;
@@ -1343,8 +1343,7 @@ void Manager::Add_Withdraw(string customer_name, string file_name, int value){
 
 	for(x=0;x<length_c;x++){
 		if(customer_names[x] == customer_name){
-			cout << "\nhello " << customer_name << endl;
-			//cout << "your balance is: $" << endl;
+			cout << prompt.hello_isItMeYourLookingFor << customer_name << endl;
 			y = x;
 			cout << endl;
 		}
@@ -1447,7 +1446,7 @@ int Manager::manager_login(){
 	for(x=0;x<length_e;x++){
 		if(names[x] == username && passwords[x] == password){
 			cout << endl;
-			cout << "welcome " << username << endl;
+			cout << prompt.hello_isItMeYourLookingFor << username << endl;
 			loop = 1;
 			break;
 		}
@@ -1492,7 +1491,6 @@ void Manager::Initialize(){
 		fptr2 >> a;
 		fptr2 >> c;
 		savings.push_back(c);
-		//cout << savings[x] << endl;
 	}
 	fptr2.close();
 
@@ -1506,7 +1504,6 @@ void Manager::Initialize(){
 		fptr3 >> a;
 		fptr3 >> d;
 		checking.push_back(d);
-		//cout << checking[x] << endl;
 	}
 	fptr3.close();
 
@@ -1519,10 +1516,8 @@ void Manager::Initialize(){
 	for(x=0;x<length_e;x++){
 		fptr4 >> e;
 		names.push_back(e);
-		//cout << names[x] << endl;
 		fptr4 >> f;
 		payroll.push_back(f);
-		//cout << payroll[x] << endl;
 	}
 
 	fstream fptr5;
@@ -1536,8 +1531,6 @@ void Manager::Initialize(){
 		employee_names.push_back(g);
 		fptr5 >> h;
 		employee_passwords.push_back(h);
-		//cout << names[x] << endl;
-		//cout << passwords[x] << endl;
 	}
 	fptr5.close();
 
@@ -1552,8 +1545,6 @@ void Manager::Initialize(){
 		names.push_back(i);
 		fptr6 >> j;
 		passwords.push_back(j);
-		//cout << names[x] << endl;
-		//cout << passwords[x] << endl;
 	}
 	fptr6.close();
 }
@@ -1687,15 +1678,11 @@ int main(void){
 		break;
 
 		case 3:
-			//cout << "we haven't written that yet" << endl;
-			//Manager manager1;
 			manager1.Initialize();
 			manager1.manager_login();
 			choice_m1 = manager1.manager_menu();
-			//int third_loop = 0;
 			while(third_loop == 0){
 			if(choice_m1 == 1){
-				//manage customers
 				choice_m2 = userInput.get_integer(0, 4, prompt.menu_manage_customer);
 				while(choice_m2 == 1){
 					customer_name = userInput.get_string(MAX_NAME_LENGTH, prompt.manager_customer);
@@ -1785,8 +1772,6 @@ int main(void){
 
 		break;
 		case 4:
-			//cout << "we haven't written that yet" << endl;
-			//creates a new customer account
 			employee1.Initialize();
 			employee1.Add_Customer();
 		break;
