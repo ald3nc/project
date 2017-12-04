@@ -21,6 +21,7 @@ using namespace std;
 #define DATA_SAVINGS "savings.txt"
 #define DATA_EMPLOYEE "employees.txt"
 #define DATA_PAYROLL "payroll.txt"
+#define DATA_MANAGER "managers.txt"
 
 /* STRUCTURE: prompts
  * DESCRIPTION: Stores all of the prompts to be displayed to the user
@@ -31,8 +32,12 @@ struct prompts {
 	string menu_account = "Enter 1 to Add Funds\nEnter 2 to Withdraw Funds\nEnter 3 to Return to Exit Menu";
 	string menu_customer = "Enter 1 to Manage Checking Account\nEnter 2 to Manage Savings Account\nEnter 3 to Exit Menu";
 	string menu_employee = "Enter 1 to Manage a Customer Account\nEnter 2 to View Payroll Information\nEnter 3 to Add Customer Account\nEnter 4 to Remove Customer Account\nEnter 5 to View All Customer Accounts\nEnter 6 to Exit Menu";
+	string menu_manager = "Enter 1 to Manage Customers\nEnter 2 to Manage Employees\nEnter 3 to Exit Menu";	
 	string menu_manage_customer = "Enter 1 to Add Funds to Savings\nEnter 2 to Add Funds to Checking\nEnter 3 to Withdraw From Savings\nEnter 4 to Withdraw from Checking";
 	string menu_customer_account_name = "Which Customer Account Would you Like to Manage?\n(Enter 'exit' to Exit Menu)";
+	string menu_addRemove = "Enter 1 to Add Funds to Savings\nEnter 2 to Add Funds to Checking\nEnter 3 to Withdraw from Savings\nEnter 4 to Withdraw from Checking\nEnter 5 to Exit";
+	string menu_manageEmployees = "Enter 1 to Change an Employee's Pay\nEnter 2 to Add an Employee\nEnter 3 to Remove an Employee\nEnter 4 to View All Employees\nEnter 5 to Exit Menu";
+	string menu_manageCustomers = "Enter 1 to Manage a Customer Account\nEnter 2 to Add a New Customer\nEnter 3 to Remove a Customer\nEnter 4 to View all Accounts";
 
 	// Login messages
 	string username = "Enter Your Username (Enter 'exit' to return to previous menu): ";
@@ -47,7 +52,9 @@ struct prompts {
 	// Error handling messages (Soft Errors)
 	string soft_input = "Invalid Input";
 	string soft_customer_name = "There is Already a Customer with that Name";
+	string soft_invalid_customer = "Not a Valid Customer";
 	string try_again = "Would you like to try again? (yes) -or- (no): ";
+	string try_again_please = "Please Try Again";
 	string exit = "Enter 'exit' to Exit Current Menu";
 
 	// New customer data acquisition
@@ -56,8 +63,12 @@ struct prompts {
 	string new_customer_checking = "Enter Checking Balance for New Customer: ";
 	string new_customer_savings = "Enter Savings Balance for New Customer: ";
 
-	// Customer
-	string customer_name = "Enter Name of Customer: ";
+	// Customer Options
+	string customer_name = "Enter Name of Customer (Enter 'exit' to return to previous menu): ";
+
+	// Manager Options
+	string manager_customer = "Enter Name of Customer Account you would like to Manage (Enter 'exit' to return to previous menu): ";
+	string manager_employee = "Enter Name of Employee you would like to Manage (Enter 'exit' to return to previous menu): ";
 
 	// Error messages
 	string error_general = "ERROR: General Error";
@@ -97,13 +108,15 @@ string Input::get_string(int maxLength) {
 		getline(cin,raw);
 		if( raw.size() > maxLength )
 			throw length_error( prompt.error_characterOverflow );
+		if( raw == "exit" )
+			return EXIT;
 	} catch (length_error x) {
 		string cont;
 
 		cout << endl << x.what();
 		cout << endl << prompt.try_again;
 
-		cont = get_string(3);
+		cont = get_string(maxLength);
 
 		if( cont == "yes" ) {
 			return RESTART;
@@ -516,7 +529,7 @@ int Customer::Customer_login(){
 	fptr.close();
 	while(loop == 0){
 		username = userInput.get_string(MAX_NAME_LENGTH, prompt.username);
-		if(username == "exit"){
+		if(username == EXIT){
 			return 1;
 		}
 		password = userInput.get_string(MAX_PASS_LENGTH, prompt.password);
@@ -530,7 +543,7 @@ int Customer::Customer_login(){
 		}
 	}
 	if(x == length){
-		cout << "please try again" << endl;
+		cout << prompt.try_again_please << endl;
 			continue;
 	}
 	}
@@ -597,6 +610,7 @@ void Employee::Remove_Customer(){
 		}
 		if(x == length_c){
 			cout << "not a valid customer" << endl;
+
 		}
 	}
 
@@ -916,7 +930,7 @@ int Employee::Manage_Customer(string customer_name){
 		}
 	}
 	if(x == 3){
-		cout << "please try again" << endl;
+		cout << prompt.try_again_please << endl;
 		return 0;
 	}
 	return 2;
@@ -928,7 +942,7 @@ int Employee::Employee_login(){
 
 	while(loop == 0){
 		username = userInput.get_string(MAX_NAME_LENGTH, prompt.username);
-		if(username == "exit"){
+		if(username == EXIT){
 			return 1;
 		}
 
@@ -943,7 +957,7 @@ int Employee::Employee_login(){
 		}
 	}
 	if(x == 3){
-		cout << "please try again" << endl;
+		cout << prompt.try_again_please << endl;
 			continue;
 	}
 	}
@@ -1034,9 +1048,9 @@ void Manager::Remove_Employee(){
 	}
 
     fstream fptr1;
-	fptr1.open("employees.txt", fstream::out);
+	fptr1.open(DATA_EMPLOYEE, fstream::out);
 	if(!fptr1.is_open()){
-			cout << "could not open file" << endl;
+			cout << prompt.error_fileAccess << endl;
 	}
 	fptr1 << length_e << endl;
 	for(x=0;x<length_e;x++){
@@ -1045,9 +1059,9 @@ void Manager::Remove_Employee(){
 	fptr1.close();
 
     fstream fptr;
-	fptr.open("payroll.txt", fstream::out);
+	fptr.open(DATA_PAYROLL, fstream::out);
 	if(!fptr.is_open()){
-			cout << "could not open file" << endl;
+			cout << prompt.error_fileAccess << endl;
 	}
 	fptr << length_e << endl;
 	for(x=0;x<length_e;x++){
@@ -1079,7 +1093,7 @@ void Manager::Add_Employee(){
 
 	length_e = length_e + 1;
 
-	cout << "enter the password for this customer" << endl;
+	cout << prompt.password << endl;
 	cin >> new_password;
 	employee_passwords.push_back(new_password);
 
@@ -1090,9 +1104,9 @@ void Manager::Add_Employee(){
 
 
 	fstream fptr;
-	fptr.open("payroll.txt");
+	fptr.open(DATA_PAYROLL);
 	if(!fptr.is_open()){
-			cout << "could not open file" << endl;
+			cout << prompt.error_fileAccess << endl;
 	}
 
 	fptr << length_e << endl;
@@ -1102,9 +1116,9 @@ void Manager::Add_Employee(){
 	fptr.close();
 
 	fstream fptr1;
-	fptr1.open("employees.txt");
+	fptr1.open(DATA_EMPLOYEE);
 	if(!fptr1.is_open()){
-			cout << "could not open file" << endl;
+			cout << prompt.error_fileAccess << endl;
 	}
 	fptr1 << length_e << endl;
 	for(x=0;x<length_e;x++){
@@ -1120,7 +1134,7 @@ void Manager::Change_Pay(string employee_name){
 	int y = 0;
 	fstream fptr;
 	double new_pay;
-	string file_name = "payroll.txt";
+	string file_name = DATA_PAYROLL;
 
 	for(x=0;x<length_e;x++){
 		if(employee_names[x] == employee_name){
@@ -1212,9 +1226,9 @@ void Manager::Remove_Customer(){
 	length_c = length_c - 1;
 
     fstream fptr1;
-	fptr1.open("customers.txt", fstream::out);
+	fptr1.open(DATA_CUSTOMER, fstream::out);
 	if(!fptr1.is_open()){
-			cout << "could not open file" << endl;
+			cout << prompt.error_fileAccess << endl;
 	}
 	fptr1 << length_c << endl;
 	for(x=0;x<length_c;x++){
@@ -1223,9 +1237,9 @@ void Manager::Remove_Customer(){
 	fptr1.close();
 
     fstream fptr;
-	fptr.open("savings.txt", fstream::out);
+	fptr.open(DATA_SAVINGS, fstream::out);
 	if(!fptr.is_open()){
-			cout << "could not open file" << endl;
+			cout << prompt.error_fileAccess << endl;
 	}
 	fptr << length_c << endl;
 	for(x=0;x<length_c;x++){
@@ -1234,9 +1248,9 @@ void Manager::Remove_Customer(){
 	fptr.close();
 
     fstream fptr2;
-	fptr2.open("checking.txt", fstream::out);
+	fptr2.open(DATA_CHECKING, fstream::out);
 	if(!fptr2.is_open()){
-			cout << "could not open file" << endl;
+			cout << prompt.error_fileAccess << endl;
 	}
 	fptr2 << length_c << endl;
 	for(x=0;x<length_c;x++){
@@ -1254,8 +1268,7 @@ void Manager::Add_Customer(){
 	double new_checking;
 
 	while(loop == 0){
-		cout << "Enter the name of the customer" << endl;
-		cin >> new_customer;
+		new_customer = userInput.get_string(MAX_NAME_LENGTH, prompt.customer_name);
 		for(x=0;x<length_c;x++){
 			if(customer_names[x] == new_customer){
 				cout << "there is already a customer with that name" << endl;
@@ -1269,15 +1282,14 @@ void Manager::Add_Customer(){
 
 	length_c = length_c + 1;
 
-	cout << "enter the password for this customer" << endl;
-	cin >> new_password;
+	new_password = userInput.get_string(MAX_PASS_LENGTH, prompt.password);
 	customer_names.push_back(new_customer);
 	customer_passwords.push_back(new_password);
 
 	fstream fptr;
-	fptr.open("customers.txt");
+	fptr.open(DATA_CUSTOMER);
 	if(!fptr.is_open()){
-			cout << "could not open file" << endl;
+			cout << prompt.error_fileAccess << endl;
 	}
 
 	fptr << length_c << endl;
@@ -1294,9 +1306,9 @@ void Manager::Add_Customer(){
 	checking.push_back(new_checking);
 
 	//fstream fptr;
-	fptr.open("savings.txt");
+	fptr.open(DATA_SAVINGS);
 	if(!fptr.is_open()){
-			cout << "could not open file" << endl;
+			cout << prompt.error_fileAccess << endl;
 	}
 
 	fptr << length_c << endl;
@@ -1306,9 +1318,9 @@ void Manager::Add_Customer(){
 	fptr.close();
 
 	//fstream fptr;
-	fptr.open("checking.txt");
+	fptr.open(DATA_CHECKING);
 	if(!fptr.is_open()){
-			cout << "could not open file" << endl;
+			cout << prompt.error_fileAccess << endl;
 	}
 
 	fptr << length_c << endl;
@@ -1338,14 +1350,13 @@ void Manager::Add_Withdraw(string customer_name, string file_name, int value){
 	double amount;
 
 	if(value == 1){
-		cout << "your balance is: $" << savings[y] << endl;
-		cout << "Enter amount you would like to deposit" << endl;
-		cin >> amount;
+		cout << prompt.info_balance << savings[y] << endl;
+		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
 		savings[y] = savings[y] + amount;
-		cout << "your new balance is: " << savings[y] << endl;
+		cout << prompt.info_balance << savings[y] << endl;
 		fptr.open(file_name);
 		if(!fptr.is_open()){
-				cout << "could not open file" << endl;
+				cout << prompt.error_fileAccess << endl;
 		}
 		fptr << length_c << endl;
 		for(x=0;x<length_c;x++){
@@ -1354,14 +1365,13 @@ void Manager::Add_Withdraw(string customer_name, string file_name, int value){
 
 	}
 	if(value == 2){
-		cout << "your balance is: $" << checking[y] << endl;
-		cout << "Enter amount you would like to withdraw" << endl;
-		cin >> amount;
+		cout << prompt.info_balance << checking[y] << endl;
+		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.withdraw);
 		checking[y] = checking[y] + amount;
-		cout << "your new balance is: " << checking[y] << endl;
+		cout << prompt.info_balance << checking[y] << endl;
 		fptr.open(file_name);
 		if(!fptr.is_open()){
-				cout << "could not open file" << endl;
+				cout << prompt.error_fileAccess << endl;
 		}
 		fptr << length_c << endl;
 		for(x=0;x<length_c;x++){
@@ -1369,14 +1379,13 @@ void Manager::Add_Withdraw(string customer_name, string file_name, int value){
 		}
 	}
 	if(value == 3){
-		cout << "your balance: $" << savings[y] << endl;
-		cout << "Enter amount you would like to deposit" << endl;
-		cin >> amount;
+		cout << prompt.info_balance << savings[y] << endl;
+		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
 		savings[y] = savings[y] - amount;
-		cout << "your new balance is: " << savings[y] << endl;
+		cout << prompt.info_balance << savings[y] << endl;
 		fptr.open(file_name);
 		if(!fptr.is_open()){
-				cout << "could not open file" << endl;
+				cout << prompt.error_fileAccess << endl;
 		}
 		fptr << length_c << endl;
 		for(x=0;x<length_c;x++){
@@ -1384,14 +1393,13 @@ void Manager::Add_Withdraw(string customer_name, string file_name, int value){
 		}
 	}
 	if(value == 4){
-		cout << "your balance: $" << checking[y] << endl;
-		cout << "Enter amount you would like to withdraw" << endl;
-		cin >> amount;
+		cout << prompt.info_balance << checking[y] << endl;
+		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.withdraw);
 		checking[y] = checking[y] - amount;
-		cout << "your new balance is: " << checking[y] << endl;
+		cout << prompt.info_balance << checking[y] << endl;
 		fptr.open(file_name);
 		if(!fptr.is_open()){
-				cout << "could not open file" << endl;
+				cout << prompt.error_fileAccess << endl;
 		}
 		fptr << length_c << endl;
 		for(x=0;x<length_c;x++){
@@ -1414,7 +1422,7 @@ int Manager::Manage_Customer(string customer_name){
 		}
 	}
 	if(x == length_c){
-		cout << "please try again" << endl;
+		cout << prompt.try_again_please << endl;
 		return 0;
 	}
 	return 2;
@@ -1426,14 +1434,11 @@ int Manager::manager_login(){
 	int loop = 0;
 
 	while(loop == 0){
-		cout << "enter 'exit' as your username to return to main menu" << endl;
-		cout << "enter your username" << endl;
-		cin >> username;
-		if(username == "exit"){
+		username = userInput.get_string(MAX_NAME_LENGTH, prompt.username);
+		if(username == EXIT){
 			return 1;
 		}
-		cout << "enter your password" << endl;
-		cin >> password;
+		password = userInput.get_string(MAX_PASS_LENGTH, prompt.password);
 
 	for(x=0;x<length_e;x++){
 		if(names[x] == username && passwords[x] == password){
@@ -1444,7 +1449,7 @@ int Manager::manager_login(){
 		}
 	}
 	if(x == 3){
-		cout << "please try again" << endl;
+		cout << prompt.try_again_please << endl;
 			continue;
 	}
 	}
@@ -1458,9 +1463,9 @@ void Manager::Initialize(){
 	double c, d, f;
 
 	fstream fptr1;
-	fptr1.open("customers.txt");
+	fptr1.open(DATA_CUSTOMER);
 	if(!fptr1.is_open()){
-		cout << "could not open file" << endl;
+		cout << prompt.error_fileAccess << endl;
 	}
 	fptr1 >> length_c;
 	for(x=0;x<length_c;x++){
@@ -1474,9 +1479,9 @@ void Manager::Initialize(){
 	fptr1.close();
 
 	fstream fptr2;
-	fptr2.open("savings.txt");
+	fptr2.open(DATA_SAVINGS);
 	if(!fptr2.is_open()){
-		cout << "could not open file" << endl;
+		cout << prompt.error_fileAccess << endl;
 	}
 	fptr2 >> length_c;
 	for(x=0;x<length_c;x++){
@@ -1488,9 +1493,9 @@ void Manager::Initialize(){
 	fptr2.close();
 
 	fstream fptr3;
-	fptr3.open("checking.txt");
+	fptr3.open(DATA_CHECKING);
 	if(!fptr3.is_open()){
-		cout << "could not open file" << endl;
+		cout << prompt.error_fileAccess << endl;
 	}
 	fptr3 >> length_c;
 	for(x=0;x<length_c;x++){
@@ -1502,9 +1507,9 @@ void Manager::Initialize(){
 	fptr3.close();
 
 	fstream fptr4;
-	fptr4.open("payroll.txt");
+	fptr4.open(DATA_PAYROLL);
 	if(!fptr4.is_open()){
-		cout << "could not open file" << endl;
+		cout << prompt.error_fileAccess << endl;
 	}
 	fptr4 >> length_e;
 	for(x=0;x<length_e;x++){
@@ -1517,9 +1522,9 @@ void Manager::Initialize(){
 	}
 
 	fstream fptr5;
-	fptr5.open("employees.txt");
+	fptr5.open(DATA_EMPLOYEE);
 	if(!fptr5.is_open()){
-		cout << "could not open file" << endl;
+		cout << prompt.error_fileAccess << endl;
 	}
 	fptr5 >> length_e;
 	for(x=0;x<length_e;x++){
@@ -1533,9 +1538,9 @@ void Manager::Initialize(){
 	fptr5.close();
 
 	fstream fptr6;
-	fptr6.open("managers.txt");
+	fptr6.open(DATA_MANAGER);
 	if(!fptr6.is_open()){
-		cout << "could not open file" << endl;
+		cout << prompt.error_fileAccess << endl;
 	}
 	fptr6 >> length_m;
 	for(x=0;x<length_m;x++){
@@ -1550,10 +1555,7 @@ void Manager::Initialize(){
 }
 
 int Manager::manager_menu(){
-	cout << "Enter 1 to manage customers" << endl;
-	cout << "Enter 2 to manage employees" << endl;
-	cout << "Enter 3 to exit menu" << endl;
-	cin >> choice_m;
+	choice_m = userInput.get_integer(0, 3, prompt.menu_manager);
 	return choice_m;
 }
 
@@ -1635,10 +1637,8 @@ int main(void){
 			while(second_loop == 0){
 				choice_e = employee1.Employee_Menu();
 				while(choice_e == 1){
-					cout << "which customer account would you like to manage:" << endl;
-					cout << "enter 'exit' to exit menu" << endl;
-					cin >> customer_name;
-					if(customer_name == "exit"){
+					customer_name = userInput.get_string(MAX_NAME_LENGTH, prompt.manager_customer);
+					if(customer_name == EXIT){
 						choice_e = 0;
 						continue;
 					}
@@ -1648,21 +1648,15 @@ int main(void){
 					}
 					if(x == 1){
 						cout << "good job" << endl;
-						//add or remove funds from savings and checking
-						int x = 0;
-						cout << "enter 1 to add funds to savings" << endl;
-						cout << "enter 2 to add funds to checking" << endl;
-						cout << "enter 3 to withdraw from savings" << endl;
-						cout << "enter 4 to withdraw from checking" << endl;
-						cin >> x;
+						int x = userInput.get_integer(0, 4, prompt.menu_addRemove);
 						if(x == 1)
-							employee1.Add_Withdraw(customer_name, "savings.txt", 1);
+							employee1.Add_Withdraw(customer_name, DATA_SAVINGS, 1);
 						if(x == 2)
-							employee1.Add_Withdraw(customer_name, "checking.txt", 2);
+							employee1.Add_Withdraw(customer_name, DATA_CHECKING, 2);
 						if(x == 3)
-							employee1.Add_Withdraw(customer_name, "savings.txt", 3);
+							employee1.Add_Withdraw(customer_name, DATA_SAVINGS, 3);
 						if(x == 4)
-							employee1.Add_Withdraw(customer_name, "checking.txt", 4);
+							employee1.Add_Withdraw(customer_name, DATA_CHECKING, 4);
 						choice_e = 0;
 					}
 				}
@@ -1699,16 +1693,10 @@ int main(void){
 			while(third_loop == 0){
 			if(choice_m1 == 1){
 				//manage customers
-				cout << "Enter 1 to manage a customer account" << endl;
-				cout << "Enter 2 to add a new customer" << endl;
-				cout << "Enter 3 to remove a customer" << endl;
-				cout << "Enter 4 to view all accounts" << endl;
-				cin >> choice_m2;
+				choice_m2 = userInput.get_integer(0, 4, prompt.menu_manage_customer);
 				while(choice_m2 == 1){
-					cout << "which customer account would you like to manage:" << endl;
-					cout << "enter 'exit' to exit menu" << endl;
-					cin >> customer_name;
-					if(customer_name == "exit"){
+					customer_name = userInput.get_string(MAX_NAME_LENGTH, prompt.manager_customer);
+					if(customer_name == EXIT){
 						choice_m2 = 0;
 						continue;
 					}
@@ -1720,20 +1708,15 @@ int main(void){
 						cout << "good job" << endl;
 						//add or remove funds from savings and checking
 						int x = 0;
-						cout << "enter 1 to add funds to savings" << endl;
-						cout << "enter 2 to add funds to checking" << endl;
-						cout << "enter 3 to withdraw from savings" << endl;
-						cout << "enter 4 to withdraw from checking" << endl;
-						cout << "enter 5 to exit menu" << endl;
-						cin >> x;
+						x = userInput.get_integer(0, 5, prompt.menu_addRemove);
 						if(x == 1)
-							manager1.Add_Withdraw(customer_name, "savings.txt", 1);
+							manager1.Add_Withdraw(customer_name, DATA_SAVINGS, 1);
 						if(x == 2)
-							manager1.Add_Withdraw(customer_name, "checking.txt", 2);
+							manager1.Add_Withdraw(customer_name, DATA_CHECKING, 2);
 						if(x == 3)
-							manager1.Add_Withdraw(customer_name, "savings.txt", 3);
+							manager1.Add_Withdraw(customer_name, DATA_SAVINGS, 3);
 						if(x == 4)
-							manager1.Add_Withdraw(customer_name, "checking.txt", 4);
+							manager1.Add_Withdraw(customer_name, DATA_CHECKING, 4);
 						choice_e = 0;
 					}
 				}
@@ -1754,18 +1737,11 @@ int main(void){
 
 			if(choice_m1 == 2){
 				//manage employees
-				cout << "enter 1 to change an employees' pay" << endl;
-				cout << "enter 2 to add an employee" << endl;
-				cout << "enter 3 to remove an employee" << endl;
-				cout << "enter 4 to view all employees" << endl;
-				cout << "enter 5 to exit menu" << endl;
-				cin >> choice_m3;
+				choice_m3 = userInput.get_integer(0, 5, prompt.menu_manageEmployees);
 				while(choice_m3 == 1){
-					cout << "which employee would you like to manage:" << endl;
-					cout << "enter 'exit' to exit menu" << endl;
-					cin >> employee_name;
+					employee_name = userInput.get_string(MAX_NAME_LENGTH, prompt.manager_employee);
 					cout << "1" << endl;
-					if(employee_name == "exit"){
+					if(employee_name == EXIT){
 						choice_m3 = 0;
 						cout << "2" << endl;
 						continue;
