@@ -8,10 +8,10 @@ using namespace std;
 // Maximum amounts constants
 #define MAX_NAME_LENGTH 20
 #define MAX_PASS_LENGTH 20
-#define MAX_AMOUNT_DEPOSIT_WITHDRAW 1000000000
-#define MAX_AMOUNT_ACCOUNT 1000000000
+#define MAX_AMOUNT_DEPOSIT_WITHDRAW 2147483647	// Max range for a floating-point value
+#define MAX_AMOUNT_ACCOUNT 2147483647			// Max range for a floating-point value
 
-// Program control constants
+// Program control constants 
 #define RESTART "***RESTART***"
 #define EXIT "***EXIT***"
 
@@ -129,7 +129,7 @@ string Input::get_string(int maxLength) {
 		cout << prompt.error_input;
 		cout << endl << prompt.try_again;
 
-		cont = get_string(3);
+		cont = get_string(maxLength);
 
 		if( cont == "yes" ) {
 			return RESTART;
@@ -191,7 +191,7 @@ int Input::get_integer(int min, int max) {
 		cont = get_string(3);
 
 		if( cont == "yes" ) {
-			newValue = get_integer(min, max);
+			throw invalid_argument(RESTART);
 		} else {
 			throw domain_error(EXIT);
 		} // END if...else
@@ -225,6 +225,8 @@ int Input::get_integer(int min, int max, string prompt) {
 		raw = get_integer(min, max);
 	} catch (domain_error x) {
 		cout << x.what();
+	} catch (invalid_argument x) {
+		raw = get_integer(min, max, prompt);
 	} catch (...) {
 
 		cout << "ERROR: General";
@@ -263,7 +265,7 @@ float Input::get_float(float min, float max) {
 		cont = get_string(3);
 
 		if( cont == "yes" ) {
-			newValue = get_float(min, max);
+			throw invalid_argument(RESTART);
 		} else {
 			throw domain_error(EXIT);
 		} // END if...else
@@ -276,7 +278,7 @@ float Input::get_float(float min, float max) {
 		cont = get_string(3);
 
 		if( cont == "yes" ) {
-			newValue = get_float(min, max);
+			throw invalid_argument(RESTART);
 		} else {
 			throw domain_error(EXIT);
 		}
@@ -297,6 +299,8 @@ float Input::get_float(float min, float max, string prompt) {
 		raw = get_float(min, max);
 	} catch (domain_error x) {
 		cout << x.what();
+	} catch (invalid_argument x) {
+		raw = get_float(min, max, prompt);
 	} catch (...) {
 
 		cout << "ERROR: General";
