@@ -1,7 +1,6 @@
-6
+5
 admin 900
 Andrew 500
 Gino 100
 Derek 123
 Garrett 321
-admin 900
