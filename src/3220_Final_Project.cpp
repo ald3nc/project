@@ -39,7 +39,7 @@ struct prompts {
 	string menu_addRemove = "Enter 1 to Add Funds to Savings\nEnter 2 to Add Funds to Checking\nEnter 3 to Withdraw from Savings\nEnter 4 to Withdraw from Checking\nEnter 5 to Exit";
 	string menu_manageEmployees = "Enter 1 to Change an Employee's Pay\nEnter 2 to Add an Employee\nEnter 3 to Remove an Employee\nEnter 4 to View All Employees\nEnter 5 to Exit Menu";
 	string menu_manageCustomers = "Enter 1 to Manage a Customer Account\nEnter 2 to Add a New Customer\nEnter 3 to Remove a Customer\nEnter 4 to View all Accounts";
-	string menu_andrew = "Enter 1 to manage checking/nEnter 2 to manage savings/nEnter 3 to exit";
+	string menu_andrew = "Enter 1 to manage checking\nEnter 2 to manage savings\nEnter 3 to exit";
 
 	// Login messages
 	string username = "Enter Your Username (Enter 'exit' to return to previous menu): ";
@@ -575,7 +575,6 @@ int Customer::Customer_Menu(){
 class Employee{
 private:
 	int choice_e = 0;
-	string username1;
 	string username;
 	string password;
 	int length_c = 0;
@@ -595,7 +594,7 @@ public:
 	int Manage_Customer(string customer_name);
 	int View_payroll();
 	void View_All_Accounts();
-	void Add_Withdraw(string customer_name, string file_name, int value);
+	//void Add_Withdraw(string customer_name, string file_name, int value);
 	void Initialize();
 	void Add_Customer();
 	void Remove_Customer();
@@ -998,7 +997,7 @@ private:
 	vector<string> employee_passwords;
 
 public:
-	Manager() {};
+	Manager();
 	int manager_menu();
 	int manager_login();
 	void Initialize();
@@ -1643,10 +1642,13 @@ int main(void){
 						int x = userInput.get_integer(0,3, prompt.menu_andrew);
 						if(x == 1)
 							CheckingAccount checking1(c, customer_name);
+							choice_e = 0;
 						if(x == 2)
 							SavingsAccount savings1(s, customer_name);
+							choice_e = 0;
 						if(x == 3)
 							choice_e = 0;
+						continue;
 					}
 				}
 				if(choice_e == 2){
