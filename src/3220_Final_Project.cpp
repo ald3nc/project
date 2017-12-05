@@ -594,7 +594,6 @@ public:
 	int Manage_Customer(string customer_name);
 	int View_payroll();
 	void View_All_Accounts();
-	//void Add_Withdraw(string customer_name, string file_name, int value);
 	void Initialize();
 	void Add_Customer();
 	void Remove_Customer();
@@ -822,84 +821,6 @@ void Employee::Initialize(){
 	fptr5.close();
 }
 
-
-
-/*void Employee::Add_Withdraw(string customer_name, string file_name, int value){
-
-	int x = 0;
-	int y = 0;
-	fstream fptr;
-
-	for(x=0;x<length_c;x++){
-		if(customer_names[x] == customer_name){
-			cout << endl << prompt.hello_isItMeYourLookingFor << customer_name << endl;
-			y = x;
-			cout << endl;
-		}
-	}
-
-	int choice = 0;
-	double amount;
-
-	if(value == 1){
-		cout << prompt.info_balance << savings[y] << endl;
-		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
-		savings[y] = savings[y] + amount;
-		cout << prompt.info_balance << savings[y] << endl;
-		fptr.open(file_name);
-		if(!fptr.is_open()){
-				cout << prompt.error_fileAccess << endl;
-		}
-		fptr << length_c << endl;
-		for(x=0;x<length_c;x++){
-			fptr << customer_names[x] << " " << savings[x] << endl;
-		}
-
-	}
-	if(value == 2){
-		cout << prompt.info_balance << checking[y] << endl;
-		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.withdraw);
-		checking[y] = checking[y] + amount;
-		cout << prompt.info_balance << checking[y] << endl;
-		fptr.open(file_name);
-		if(!fptr.is_open()){
-				cout << prompt.error_fileAccess << endl;
-		}
-		fptr << length_c << endl;
-		for(x=0;x<length_c;x++){
-			fptr << customer_names[x] << " " << checking[x] << endl;
-		}
-	}
-	if(value == 3){
-		cout << prompt.info_balance << savings[y] << endl;
-		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
-		savings[y] = savings[y] - amount;
-		cout << prompt.info_balance << savings[y] << endl;
-		fptr.open(file_name);
-		if(!fptr.is_open()){
-				cout << prompt.error_fileAccess << endl;
-		}
-		fptr << length_c << endl;
-		for(x=0;x<length_c;x++){
-			fptr << customer_names[x] << " " << savings[x] << endl;
-		}
-	}
-	if(value == 4){
-		cout << prompt.info_balance << checking[y] << endl;
-		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.withdraw);
-		checking[y] = checking[y] - amount;
-		cout << prompt.info_balance << checking[y] << endl;
-		fptr.open(file_name);
-		if(!fptr.is_open()){
-				cout << prompt.error_fileAccess << endl;
-		}
-		fptr << length_c << endl;
-		for(x=0;x<length_c;x++){
-			fptr << customer_names[x] << " " << checking[x] << endl;
-		}
-	}
-}
-*/
 void Employee::View_All_Accounts(){
 
 	int x = 0;
@@ -997,12 +918,11 @@ private:
 	vector<string> employee_passwords;
 
 public:
-	Manager();
+	Manager() {};
 	int manager_menu();
 	int manager_login();
 	void Initialize();
 	int Manage_Customer(string customer_name);
-	void Add_Withdraw(string customer_name, string file_name, int value);
 	void Add_Customer();
 	void Remove_Customer();
 	void View_All_Accounts();
@@ -1328,83 +1248,6 @@ void Manager::Add_Customer(){
 	fptr.close();
 
 }
-
-/*void Manager::Add_Withdraw(string customer_name, string file_name, int value){
-
-	int x = 0;
-	int y = 0;
-	fstream fptr;
-
-	for(x=0;x<length_c;x++){
-		if(customer_names[x] == customer_name){
-			cout << prompt.hello_isItMeYourLookingFor << customer_name << endl;
-			y = x;
-			cout << endl;
-		}
-	}
-
-	int choice = 0;
-	double amount;
-
-	if(value == 1){
-		cout << prompt.info_balance << savings[y] << endl;
-		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
-		savings[y] = savings[y] + amount;
-		cout << prompt.info_balance << savings[y] << endl;
-		fptr.open(file_name);
-		if(!fptr.is_open()){
-				cout << prompt.error_fileAccess << endl;
-		}
-		fptr << length_c << endl;
-		for(x=0;x<length_c;x++){
-			fptr << customer_names[x] << " " << savings[x] << endl;
-		}
-
-	}
-	if(value == 2){
-		cout << prompt.info_balance << checking[y] << endl;
-		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.withdraw);
-		checking[y] = checking[y] + amount;
-		cout << prompt.info_balance << checking[y] << endl;
-		fptr.open(file_name);
-		if(!fptr.is_open()){
-				cout << prompt.error_fileAccess << endl;
-		}
-		fptr << length_c << endl;
-		for(x=0;x<length_c;x++){
-			fptr << customer_names[x] << " " << checking[x] << endl;
-		}
-	}
-	if(value == 3){
-		cout << prompt.info_balance << savings[y] << endl;
-		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
-		savings[y] = savings[y] - amount;
-		cout << prompt.info_balance << savings[y] << endl;
-		fptr.open(file_name);
-		if(!fptr.is_open()){
-				cout << prompt.error_fileAccess << endl;
-		}
-		fptr << length_c << endl;
-		for(x=0;x<length_c;x++){
-			fptr << customer_names[x] << " " << savings[x] << endl;
-		}
-	}
-	if(value == 4){
-		cout << prompt.info_balance << checking[y] << endl;
-		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.withdraw);
-		checking[y] = checking[y] - amount;
-		cout << prompt.info_balance << checking[y] << endl;
-		fptr.open(file_name);
-		if(!fptr.is_open()){
-				cout << prompt.error_fileAccess << endl;
-		}
-		fptr << length_c << endl;
-		for(x=0;x<length_c;x++){
-			fptr << customer_names[x] << " " << checking[x] << endl;
-		}
-	}
-}
-*/
 
 int Manager::Manage_Customer(string customer_name){
 
