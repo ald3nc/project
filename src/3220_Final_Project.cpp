@@ -1356,7 +1356,7 @@ void Manager::Initialize(){
 	fptr4 >> length_e;
 	for(x=0;x<length_e;x++){
 		fptr4 >> e;
-		names.push_back(e);
+		//names.push_back(e);
 		fptr4 >> f;
 		payroll.push_back(f);
 	}

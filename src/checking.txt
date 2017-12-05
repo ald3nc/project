@@ -1,8 +1,7 @@
-7
+6
 Andrew 149.753
 Garrett 917
 Jacob 700
 Gino 76.54
 Derek 84
 Joel 34
-Allie 675
