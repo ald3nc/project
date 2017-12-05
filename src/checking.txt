@@ -1,6 +1,7 @@
-5
-admin 2756.79
-Andrew 730.82
-Gino 655
-Derek 456
-Garrett 620
+6
+Andrew 149.753
+Garrett 917
+Jacob 700
+Gino 76.54
+Derek 36
+Jackson 34
