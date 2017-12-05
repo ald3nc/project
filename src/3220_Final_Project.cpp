@@ -343,92 +343,6 @@ public:
 	Account(string, string);
 }; // END CLASS Account
 
-class SavingsAccount:Account{
-private:
-
-protected:
-
-public:
-	SavingsAccount(string, string);
-
-}; // END CLASS SavingsAccount
-
-SavingsAccount::SavingsAccount(string file_name, string username):Account(file_name, username){
-	fstream fptr;
-	if(choice == 1){
-		// Get amount to deposit into savings account
-		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
-		balance[y] = balance[y] + amount;
-		cout << prompt.info_balance << balance[y] << endl;
-		fptr.open(file_name);
-		if(!fptr.is_open()){
-				cout << prompt.error_fileAccess << endl;
-		}
-		fptr << length << endl;
-		for(x=0;x<length;x++){
-			fptr << names[x] << " " << balance[x] << endl;
-		}
-
-	}
-	if(choice == 2){
-		// Get amount to withdraw from savings account
-		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.withdraw);
-		balance[y] = balance[y] - amount;
-		cout << prompt.info_balance << balance[y] << endl;
-		fptr.open(file_name);
-		if(!fptr.is_open()){
-				cout << prompt.error_fileAccess << endl;
-		}
-		fptr << length << endl;
-		for(x=0;x<length;x++){
-			fptr << names[x] << " " << balance[x] << endl;
-		}
-	}
-} // END CONSTRUCTOR SavingsAccount
-
-class CheckingAccount:Account{
-private:
-
-protected:
-
-public:
-	CheckingAccount(string, string);
-
-};
-
-CheckingAccount::CheckingAccount(string file_name, string username):Account(file_name, username){
-	fstream fptr;
-	if(choice == 1){
-		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
-		balance[y] = balance[y] + amount + (amount*.1);
-		cout << prompt.info_balance << balance[y] << endl;
-		fptr.open(file_name);
-		if(!fptr.is_open()){
-				cout << prompt.error_fileAccess << endl;
-		}
-		fptr << length << endl;
-		for(x=0;x<length;x++){
-			fptr << names[x] << " " << balance[x] << endl;
-		}
-
-	}
-	if(choice == 2){
-		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.withdraw);
-		balance[y] = balance[y] - amount;
-		cout << prompt.info_balance << balance[y] << endl;
-		fptr.open(file_name);
-		if(!fptr.is_open()){
-				cout << prompt.error_fileAccess << endl;
-		}
-		fptr << length << endl;
-		for(x=0;x<length;x++){
-			fptr << names[x] << " " << balance[x] << endl;
-		}
-	}
-
-
-} // END CONSTRUCTOR CheckingAccount
-
 Account::Account(string file_name, string username){
 	int length = 0;
 	int x = 0;
@@ -465,7 +379,7 @@ Account::Account(string file_name, string username){
 	int choice = 0;
 	double amount;
 	choice = userInput.get_integer(1, 3, prompt.menu_account);
-
+	//cout << "choice is" << choice << endl;
 	if(choice == 1){
 		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
 		balance[y] = balance[y] + amount;
@@ -493,8 +407,100 @@ Account::Account(string file_name, string username){
 			fptr << names[x] << " " << balance[x] << endl;
 		}
 	}
-	cout << "end" << endl;
+	//cout << "end" << endl;
 }
+
+class SavingsAccount:Account{
+private:
+
+protected:
+
+public:
+	SavingsAccount(string, string);
+
+}; // END CLASS SavingsAccount
+
+SavingsAccount::SavingsAccount(string file_name, string username):Account(file_name, username){
+/*	fstream fptr;
+	if(choice == 1){
+		// Get amount to deposit into savings account
+		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
+		balance[y] = balance[y] + amount;
+		cout << prompt.info_balance << balance[y] << endl;
+		fptr.open(file_name);
+		if(!fptr.is_open()){
+				cout << prompt.error_fileAccess << endl;
+		}
+		fptr << length << endl;
+		for(x=0;x<length;x++){
+			fptr << names[x] << " " << balance[x] << endl;
+		}
+
+	}
+	if(choice == 2){
+		// Get amount to withdraw from savings account
+		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.withdraw);
+		balance[y] = balance[y] - amount;
+		cout << prompt.info_balance << balance[y] << endl;
+		fptr.open(file_name);
+		if(!fptr.is_open()){
+				cout << prompt.error_fileAccess << endl;
+		}
+		fptr << length << endl;
+		for(x=0;x<length;x++){
+			fptr << names[x] << " " << balance[x] << endl;
+		}
+	}*/
+} // END CONSTRUCTOR SavingsAccount
+
+class CheckingAccount:Account{
+private:
+
+protected:
+
+public:
+	CheckingAccount(string, string);
+
+};
+
+CheckingAccount::CheckingAccount(string file_name, string username):Account(file_name, username){
+/*	cout << choice << endl;
+
+	fstream fptr;
+	if(choice == 1){
+		cout << "2" << endl;
+		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
+		balance[y] = balance[y] + amount + (amount*(double).1);
+		cout << prompt.info_balance << balance[y] << endl;
+		fptr.open(file_name);
+		if(!fptr.is_open()){
+				cout << prompt.error_fileAccess << endl;
+		}
+		fptr << length << endl;
+		for(x=0;x<length;x++){
+			fptr << names[x] << " " << balance[x] << endl;
+		}
+
+	}
+	if(choice == 2){
+		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.withdraw);
+		balance[y] = balance[y] - amount;
+		cout << prompt.info_balance << balance[y] << endl;
+		fptr.open(file_name);
+		if(!fptr.is_open()){
+				cout << prompt.error_fileAccess << endl;
+		}
+		fptr << length << endl;
+		for(x=0;x<length;x++){
+			fptr << names[x] << " " << balance[x] << endl;
+		}
+	}
+	//cout << "2" << endl;
+
+*/
+} // END CONSTRUCTOR CheckingAccount
+
+
 class Customer{
 private:
 	int choice_c = 0;
@@ -970,10 +976,10 @@ void Manager::Remove_Employee(){
 	payroll.erase(payroll.begin()+y);
 	length_e = length_e - 1;
 
-	for(x=0;x<length_e;x++){
+	/*for(x=0;x<length_e;x++){
 		cout << employee_names[x] << endl;
 		cout << employee_passwords[x] << endl;
-	}
+	}*/
 
     fstream fptr1;
 	fptr1.open(DATA_EMPLOYEE, fstream::out);
@@ -1402,6 +1408,7 @@ int main(void){
 	int return_to_main = 0;
 	int thing1 = 0;
 	int thing2 = 0;
+	int thing3 = 0;
 	int second_loop = 0;
 
 	string c = DATA_CHECKING;
@@ -1519,9 +1526,12 @@ int main(void){
 
 		case 3:
 			manager1.Initialize();
-			manager1.manager_login();
+			thing3 = manager1.manager_login();
+			if(thing3 == 1){
+				continue;
+			}
 			choice_m1 = manager1.manager_menu();
-			while(third_loop == 0){
+
 			if(choice_m1 == 1){
 				//choice_m2 = userInput.get_integer(0, 4, prompt.menu_manage_customer);
 				while(choice_m2 == 1){
@@ -1535,19 +1545,6 @@ int main(void){
 						cout << prompt.soft_invalid_customer << endl;
 					}
 					if(x == 1){
-						/*cout << "good job" << endl;
-						//add or remove funds from savings and checking
-						int x = 0;
-						x = userInput.get_integer(0, 5, prompt.menu_addRemove);
-						if(x == 1)
-							manager1.Add_Withdraw(customer_name, DATA_SAVINGS, 1);
-						if(x == 2)
-							manager1.Add_Withdraw(customer_name, DATA_CHECKING, 2);
-						if(x == 3)
-							manager1.Add_Withdraw(customer_name, DATA_SAVINGS, 3);
-						if(x == 4)
-							manager1.Add_Withdraw(customer_name, DATA_CHECKING, 4);
-						choice_e = 0;*/
 						int x = userInput.get_integer(0,3, prompt.menu_andrew);
 						if(x == 1)
 							CheckingAccount checking1(c, customer_name);
@@ -1572,20 +1569,20 @@ int main(void){
 				}
 			}
 
-			if(choice_m1 == 2){
+			while(choice_m1 == 2){
 				//manage employees
 				choice_m3 = userInput.get_integer(0, 5, prompt.menu_manageEmployees);
 				while(choice_m3 == 1){
 					employee_name = userInput.get_string(MAX_NAME_LENGTH, prompt.manager_employee);
-					cout << "1" << endl;
+					//cout << "1" << endl;
 					if(employee_name == EXIT){
 						choice_m3 = 0;
-						cout << "2" << endl;
+						//cout << "2" << endl;
 						continue;
 					}
-					cout << "3" << endl;
+					//cout << "3" << endl;
 					y = manager1.Manage_Employee(employee_name);
-					cout << "4" << endl;
+					//cout << "4" << endl;
 					if(y == 0){
 						cout << prompt.soft_invalid_employee << endl;
 					}
@@ -1609,10 +1606,11 @@ int main(void){
 				}
 				if(choice_m3 == 5){
 					//exit
-					third_loop = 1;
+					choice_m1 = 1;
 				}
 			if(choice_m1 == 3){
 				//loop = 1;
+
 			}
 			}
 
@@ -1629,7 +1627,7 @@ int main(void){
 		default:
 			cout << "incorrect input" << endl;
 			return 4;
-		}
+
 	}
 	}
 	return 0;
