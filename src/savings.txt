@@ -1,6 +1,7 @@
-5
-admin 900
+6
 Andrew 500
-Gino 100
-Derek 123
 Garrett 321
+Jacob 600
+Gino 45.67
+Derek 2.49
+Jackson 45

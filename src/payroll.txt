@@ -1,4 +1,4 @@
 3
-admin 12.50
-Gino 15.00
-matthew 13.75
+admin 12.5
+Gino 15
+Erik 12.5
