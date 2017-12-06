@@ -376,11 +376,11 @@ Account::Account(string file_name, string username){
 	}
 
 	fptr.close();
-	int choice = 0;
+	//int choice = 0;
 	double amount;
 	choice = userInput.get_integer(1, 3, prompt.menu_account);
 	//cout << "choice is" << choice << endl;
-	if(choice == 1){
+/*	if(choice == 1){
 		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
 		balance[y] = balance[y] + amount;
 		cout << prompt.info_balance << balance[y] << endl;
@@ -407,7 +407,7 @@ Account::Account(string file_name, string username){
 			fptr << names[x] << " " << balance[x] << endl;
 		}
 	}
-	//cout << "end" << endl;
+	//cout << "end" << endl;*/
 }
 
 class SavingsAccount:Account{
@@ -421,7 +421,7 @@ public:
 }; // END CLASS SavingsAccount
 
 SavingsAccount::SavingsAccount(string file_name, string username):Account(file_name, username){
-/*	fstream fptr;
+	fstream fptr;
 	if(choice == 1){
 		// Get amount to deposit into savings account
 		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
@@ -441,6 +441,9 @@ SavingsAccount::SavingsAccount(string file_name, string username):Account(file_n
 		// Get amount to withdraw from savings account
 		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.withdraw);
 		balance[y] = balance[y] - amount;
+		if(balance[y] < 0){
+			cout << "Warning" << endl;
+		}
 		cout << prompt.info_balance << balance[y] << endl;
 		fptr.open(file_name);
 		if(!fptr.is_open()){
@@ -450,7 +453,7 @@ SavingsAccount::SavingsAccount(string file_name, string username):Account(file_n
 		for(x=0;x<length;x++){
 			fptr << names[x] << " " << balance[x] << endl;
 		}
-	}*/
+	}
 } // END CONSTRUCTOR SavingsAccount
 
 class CheckingAccount:Account{
@@ -464,13 +467,13 @@ public:
 };
 
 CheckingAccount::CheckingAccount(string file_name, string username):Account(file_name, username){
-/*	cout << choice << endl;
+	cout << choice << endl;
 
 	fstream fptr;
 	if(choice == 1){
 		cout << "2" << endl;
 		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
-		balance[y] = balance[y] + amount + (amount*(double).1);
+		balance[y] = balance[y] + amount;
 		cout << prompt.info_balance << balance[y] << endl;
 		fptr.open(file_name);
 		if(!fptr.is_open()){
@@ -485,6 +488,9 @@ CheckingAccount::CheckingAccount(string file_name, string username):Account(file
 	if(choice == 2){
 		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.withdraw);
 		balance[y] = balance[y] - amount;
+		if(balance[y] < 0){
+			cout << "Warning" << endl;
+		}
 		cout << prompt.info_balance << balance[y] << endl;
 		fptr.open(file_name);
 		if(!fptr.is_open()){
@@ -497,7 +503,7 @@ CheckingAccount::CheckingAccount(string file_name, string username):Account(file
 	}
 	//cout << "2" << endl;
 
-*/
+
 } // END CONSTRUCTOR CheckingAccount
 
 
