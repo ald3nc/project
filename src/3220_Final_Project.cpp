@@ -467,11 +467,11 @@ public:
 };
 
 CheckingAccount::CheckingAccount(string file_name, string username):Account(file_name, username){
-	cout << choice << endl;
+	//cout << choice << endl;
 
 	fstream fptr;
 	if(choice == 1){
-		cout << "2" << endl;
+		//cout << "2" << endl;
 		amount = userInput.get_float(0, MAX_AMOUNT_DEPOSIT_WITHDRAW, prompt.deposit);
 		balance[y] = balance[y] + amount;
 		cout << prompt.info_balance << balance[y] << endl;
@@ -867,19 +867,21 @@ int Employee::Manage_Customer(string customer_name){
 
 	int x = 0;
 	int loop = 0;
+	//cout << length_c << endl;
 
 	for(x=0;x<length_c;x++){
 		if(customer_names[x] == customer_name){
-			cout <<endl;
+
+			cout << endl;
 			loop = 1;
 			return 1;
 		}
 	}
-	if(x == 3){
+	if(x == length_c){
 		cout << prompt.try_again_please << endl;
 		return 0;
 	}
-	return 2;
+	//return 2;
 }
 
 int Employee::Employee_login(){
@@ -1479,10 +1481,14 @@ int main(void){
 						choice_e = 0;
 						continue;
 					}
+
 					x = employee1.Manage_Customer(customer_name);
+					//cout << x << endl;
+
 					if(x == 0){
 						cout << prompt.soft_invalid_customer << endl;
 					}
+
 					if(x == 1){
 						/*cout << "good job" << endl;
 						int x = userInput.get_integer(0, 4, prompt.menu_addRemove);
@@ -1495,14 +1501,16 @@ int main(void){
 						if(x == 4)
 							employee1.Add_Withdraw(customer_name, DATA_CHECKING, 4);
 						choice_e = 0;*/
-						int x = userInput.get_integer(0,3, prompt.menu_andrew);
-						if(x == 1)
+						int g = userInput.get_integer(0,3, prompt.menu_andrew);
+						//cout << "here" << endl;
+						//cout << x << endl;
+						if(g == 1)
 							CheckingAccount checking1(c, customer_name);
 							choice_e = 0;
-						if(x == 2)
+						if(g == 2)
 							SavingsAccount savings1(s, customer_name);
 							choice_e = 0;
-						if(x == 3)
+						if(g == 3)
 							choice_e = 0;
 						continue;
 					}
